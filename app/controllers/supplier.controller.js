@@ -16,28 +16,30 @@ exports.signup = async (req, res) => {
 
  const emailExists = await Supplier.findOne({ where: { email } });
    if (emailExists) {
-     return res.status(400).json({ error: 'Email já existe' });
+     return res.status(200).json({ error: 'Email já existe' });
    }
 
 
 //     // Verificar se o número de telefone já existe
     const phoneExists = await Supplier.findOne({ where: { phone } });
     if (phoneExists) {
-      return res.status(400).json({ error: 'Telefone já existe' });
+      return res.status(200).json({ error: 'Telefone já existe' });
     }
 
     const lastClient = await Supplier.findOne({
       order: [['created_at', 'DESC']]
   });
-
   let code = parseInt(lastClient.supplier_id) + 1
  
+
+  let userId = bcrypt.hashSync(new Date() + name, 8);
 
    Supplier.create({
        name: name,
        client_id : code,
        email: email,
        password: bcrypt.hashSync(password, 8),
+       supplier_id: userId,
        phone: phone,
        cpf_cnpj:cpf_cnpj,
        company_name: companyName,
@@ -47,9 +49,11 @@ exports.signup = async (req, res) => {
        status: 0,
      })
        .then(user => {
+        console.log('iuuuu')
         res.send({ message: "Fornecedor criado com sucesso!" });
        })
        .catch(err => {
+        console.log('iusdasdsadsa', err)
          res.status(500).send({ message: err });
        });
   } catch (error) {
@@ -92,7 +96,10 @@ exports.signin = (req, res) => {
 
         res.status(200).send({
           email: supplier.email,
-          accessToken: token
+          id: supplier.supplier_id,
+          accessToken: token,
+          type: 2
+
         });
 
     })

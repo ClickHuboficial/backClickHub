@@ -8,11 +8,13 @@ const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
+
+
 exports.create = async (req, res) => {
   // Save User to Database
  
   try {
-    const {  name, id_supplier, slug, code, model, barcode_symbology, sub_cat_id, brand_id, unit_id, tax_id, tax_type, purchase_price, regular_price, discount, inventory_count, alert_qty, note} = req.body;
+    const {  name, id_supplier, slug, model, barcode_symbology, sub_cat_id, brand_id, unit_id, tax_id, tax_type, purchase_price, regular_price, discount, inventory_count, alert_qty, note} = req.body;
   const nameExists = await Product.findOne({ where: { name } });
     if (nameExists != '') {
         const fornecedor = await Product.findOne({ id_supplier: { id_supplier } });
@@ -25,9 +27,9 @@ exports.create = async (req, res) => {
      Product.create({
         name: name, 
         id_supplier: id_supplier, 
-        code:code, 
+        code:'', 
         model: model, 
-        barcode_symbology:barcode_symbology, 
+        barcode_symbology:'', 
         sub_cat_id:sub_cat_id, 
         brand_id:brand_id, 
         slug:slug, 
@@ -52,8 +54,12 @@ exports.create = async (req, res) => {
   }
 };
 
+
 exports.listProductSupplier = async (req, res) => {
-    const {  id_supplier } = req.body;
+
+  const { id_supplier } = req.query;
+
+
     const products = await Product.findAll({ where: { id_supplier } });
 
     res.send({ lista: products });
@@ -183,50 +189,3 @@ exports.changeStatus = async (req, res) => {
 
 }
 
-
-
-
-
-// admddin@dsdd.coms 1235202
-exports.signin = (req, res) => {
-  User.findOne({
-    where: {
-      email: req.body.email
-    }
-  })
-    .then(user => {
-      if (!user) {
-        return res.status(404).send({ message: "Usuário não encontrado." });
-      }
-
-      let passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
-
-      if (!passwordIsValid) {
-        return res.status(401).send({
-          accessToken: null,
-          message: "Senha inválida!"
-        });
-      }
-
-      const token = jwt.sign({ id: user.id },
-                              config.secret,
-                              {
-                                algorithm: 'HS256',
-                                allowInsecureKeySizes: true,
-                                expiresIn: 86400, // 24 hours
-                              });
-
-
-        res.status(200).send({
-          email: user.email,
-          accessToken: token
-        });
-
-    })
-    .catch(err => {
-      res.status(500).send({ message: err.message });
-    });
-};

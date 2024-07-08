@@ -1,6 +1,9 @@
 const { authJwt } = require("../middleware");
 const controller = require("../controllers/user.controller");
 const product = require("../controllers/product.controller");
+const brand = require("../controllers/brands.controller");
+const category = require("../controllers/category.controller");
+const subcategory = require("../controllers/subCategory.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -14,10 +17,28 @@ module.exports = function(app) {
   app.get("/api/test/all", controller.allAccess);
 
   app.post("/api/createproduct", product.create);
-  app.get("/api/listproductsupplier", product.listProductSupplier);
+
+
+  app.post("/api/createbrand", brand.createBrands);
+  app.put("/api/updatebrand/:id", brand.updateBrands)
+  app.get("/api/getallbrand", brand.getBrands);
+  app.delete("/api/deletebrand/:id", brand.deleteBrand);
+
+
+  app.post("/api/listproductsupplier", product.listProductSupplier);
   app.get("/api/listproductclient", product.listProductClient);
   app.delete("/api/product", product.delete);
   app.put("/api/productinventory", product.updateinventory);
+
+  app.post("/api/createcategory", category.createCategory);
+  app.put("/api/updatecategory/:id", category.updateCategory)
+  app.get("/api/getallcategory", category.getCategory);
+  app.delete("/api/deletecategory/:id", category.deleteCategory);
+
+  app.post("/api/createsubcategory", subcategory.createSubCategory);
+  app.put("/api/updatesubcategory/:id", subcategory.updateSubCategory)
+  app.get("/api/getallsubcategory", subcategory.getSubCategory);
+  app.delete("/api/deletesubcategory/:id",subcategory.deleteSubCategory);
 
   app.get(
     "/api/test/user",
@@ -35,5 +56,11 @@ module.exports = function(app) {
     "/api/test/admin",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
+  );
+
+  app.get(
+    "/api/test",
+    [authJwt.verifyToken],
+    controller.userBoard
   );
 };

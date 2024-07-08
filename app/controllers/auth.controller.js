@@ -12,16 +12,17 @@ exports.signup = async (req, res) => {
   // Save User to Database
  
   try {
+    console.log(req.body)
     const { name, email, password, phone, cpf_cnpj, companyName, address} = req.body;
   const emailExists = await User.findOne({ where: { email } });
     if (emailExists) {
-      return res.status(400).json({ error: 'Email já existe' });
+      return res.status(200).json({ error: 'Email já existe' });
     }
 
     // Verificar se o número de telefone já existe
     const phoneExists = await User.findOne({ where: { phone } });
     if (phoneExists) {
-      return res.status(400).json({ error: 'Telefone já existe' });
+      return res.status(200).json({ error: 'Telefone já existe' });
     }
 
     const lastClient = await User.findOne({
@@ -45,7 +46,7 @@ exports.signup = async (req, res) => {
       status: 0,
     })
       .then(user => {
-       res.send({ message: "User criado com sucesso!" });
+       res.send({ message: "Afiliado criado com sucesso!" });
       })
       .catch(err => {
         res.status(500).send({ message: err });
@@ -55,8 +56,13 @@ exports.signup = async (req, res) => {
   }
 };
 
+exports.test = (req, res) => {
+  res.send({ message: "Afiliado criado com sucesso!" });
+};
+
 // admddin@dsdd.coms 1235202
 exports.signin = (req, res) => {
+
   User.findOne({
     where: {
       email: req.body.email
