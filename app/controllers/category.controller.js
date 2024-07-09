@@ -5,7 +5,7 @@ const Category = db.categorys;
 
 
 exports.createCategory = async (req,res) =>{
-    const {  name, id_supplier } = req.body;
+    const {  name, sku, id_supplier } = req.body;
 
     const exists = await Category.findOne({ where: { name, id_supplier } });
     if (exists) {
@@ -13,7 +13,8 @@ exports.createCategory = async (req,res) =>{
     }
      Category.create({
          name: name, 
-         id_supplier: id_supplier, 
+         id_supplier: id_supplier,
+         sku: sku, 
          code: '',
          status: 1
       })
@@ -27,7 +28,7 @@ exports.createCategory = async (req,res) =>{
 
   exports.updateCategory = async (req,res) =>{
     const { id } = req.params;
-    const { name, id_supplier } = req.body;
+    const { name, id_supplier, sku } = req.body;
   
     try {
       const category = await Category.findOne({ where: { id, id_supplier} });
@@ -37,6 +38,7 @@ exports.createCategory = async (req,res) =>{
       }
   
       category.name = name;
+      category.sku = sku;
 
       await category.save();
   

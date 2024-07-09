@@ -76,7 +76,8 @@ exports.delete = async (req, res) => {
     
 
     try {
-        const {  id_supplier, id } = req.body;
+      const { id } = req.params;
+        const {  id_supplier} = req.body;
 
 
         const product = await Product.findOne({
@@ -111,8 +112,8 @@ exports.delete = async (req, res) => {
 exports.updateinventory = async (req, res) => {
 
      try {
-
-         const { inventory_count, id,  id_supplier} = req.body;
+      const { id } = req.params;
+         const { inventory_count,  id_supplier} = req.body;
 
          const product = await Product.findOne({
              where: {

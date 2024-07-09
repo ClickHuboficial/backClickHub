@@ -16,7 +16,7 @@ module.exports = function(app) {
 
   app.get("/api/test/all", controller.allAccess);
 
-  app.post("/api/createproduct", product.create);
+
 
 
   app.post("/api/createbrand", brand.createBrands);
@@ -25,10 +25,12 @@ module.exports = function(app) {
   app.delete("/api/deletebrand/:id", brand.deleteBrand);
 
 
-  app.post("/api/listproductsupplier", product.listProductSupplier);
+  app.get("/api/listproductsupplier", product.listProductSupplier);
   app.get("/api/listproductclient", product.listProductClient);
-  app.delete("/api/product", product.delete);
-  app.put("/api/productinventory", product.updateinventory);
+
+  app.post("/api/createproduct", product.create);
+  app.delete("/api/product/:id", product.delete);
+  app.put("/api/productinventory/:id", product.updateinventory);
 
   app.post("/api/createcategory", category.createCategory);
   app.put("/api/updatecategory/:id", category.updateCategory)

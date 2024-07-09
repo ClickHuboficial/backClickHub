@@ -59,7 +59,7 @@ const subCategory = db.subCategorys;
  *         description: Some server error
  */
 exports.createSubCategory = async (req, res) => {
-  const { name, id_supplier } = req.body;
+  const { name, id_supplier, ean } = req.body;
 
   const exists = await subCategory.findOne({ where: { name, id_supplier } });
   if (exists) {
@@ -68,6 +68,7 @@ exports.createSubCategory = async (req, res) => {
   subCategory.create({
     name: name,
     id_supplier: id_supplier,
+    ean:ean,
     code: '',
     status: 1
   })
@@ -112,7 +113,7 @@ exports.createSubCategory = async (req, res) => {
  */
 exports.updateSubCategory = async (req, res) => {
   const { id } = req.params;
-  const { name, id_supplier } = req.body;
+  const { name, id_supplier, ean } = req.body;
 
   try {
     const subcategory = await subCategory.findOne({ where: { id, id_supplier } });
@@ -122,6 +123,7 @@ exports.updateSubCategory = async (req, res) => {
     }
 
     subcategory.name = name;
+    subCategory.ean = ean;
 
     await subcategory.save();
 
