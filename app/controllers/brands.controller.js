@@ -68,10 +68,9 @@ exports.createBrands = async (req,res) =>{
 exports.getBrands = async (req,res) =>{
   const { id_supplier } = req.body;
 
-
   const brands = await Brand.findAll({ where: { id_supplier } });
 
-  res.send({ lista: brands });
+  res.send({ list: brands });
 
 }
 

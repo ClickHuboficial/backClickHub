@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
     // code: {
     //   type: Sequelize.STRING
     // }, 
-    note: {
+    sku: {
       type: Sequelize.STRING
     },
     status: {

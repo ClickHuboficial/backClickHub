@@ -16,10 +16,7 @@ module.exports = (sequelize, Sequelize) => {
       code: {
         type: Sequelize.STRING
       }, 
-      image: {
-        type: Sequelize.STRING
-      }, 
-      note: {
+      ean: {
         type: Sequelize.STRING
       },
       status: {

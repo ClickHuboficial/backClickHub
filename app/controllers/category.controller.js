@@ -14,7 +14,7 @@ exports.createCategory = async (req,res) =>{
      Category.create({
          name: name, 
          id_supplier: id_supplier,
-         sku: sku, 
+         sku: sku,
          code: '',
          status: 1
       })

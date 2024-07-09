@@ -21,7 +21,7 @@ module.exports = function(app) {
 
   app.post("/api/createbrand", brand.createBrands);
   app.put("/api/updatebrand/:id", brand.updateBrands)
-  app.get("/api/getallbrand", brand.getBrands);
+  app.post("/api/getallbrand", brand.getBrands);
   app.delete("/api/deletebrand/:id", brand.deleteBrand);
 
 

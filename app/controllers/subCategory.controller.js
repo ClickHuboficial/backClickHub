@@ -69,8 +69,8 @@ exports.createSubCategory = async (req, res) => {
     name: name,
     id_supplier: id_supplier,
     ean:ean,
-    code: '',
-    status: 1
+    code: 1,
+    status: 1,
   })
     .then(user => {
       res.send({ message: "subCategoria criada com sucesso!" });
