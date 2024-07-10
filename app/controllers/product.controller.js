@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
   // Save User to Database
  
   try {
-    const {  name, id_supplier, slug, model, barcode_symbology, sub_cat_id, brand_id, unit_id, tax_id, tax_type, purchase_price, regular_price, discount, inventory_count, alert_qty, note} = req.body;
+    const {  name, id_supplier,cat_id, sub_cat_id, brand_id, unit_id, tax_id, tax_type, purchase_price, regular_price, discount, alert_qty, note} = req.body;
   const nameExists = await Product.findOne({ where: { name } });
     if (nameExists != '') {
         const fornecedor = await Product.findOne({ id_supplier: { id_supplier } });
@@ -32,7 +32,7 @@ exports.create = async (req, res) => {
         barcode_symbology:'', 
         sub_cat_id:sub_cat_id, 
         brand_id:brand_id, 
-        slug:slug, 
+        slug:'', 
         unit_id:unit_id, 
         tax_id:tax_id, 
         tax_type:tax_type, 

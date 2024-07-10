@@ -1,7 +1,7 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const subCategory = db.subCategorys;
-
+const Category = db.categorys;
 /**
  * @swagger
  * components:
@@ -59,7 +59,12 @@ const subCategory = db.subCategorys;
  *         description: Some server error
  */
 exports.createSubCategory = async (req, res) => {
-  const { name, id_supplier, ean } = req.body;
+  const { name, id_supplier, ean, id_cat } = req.body;
+
+  const existsCat = await Category.findOne({ where: { id: id_cat, id_supplier } });
+  if (existsCat) {
+    return res.status(200).json({ error: 'Não existe essa categoria' });
+  }
 
   const exists = await subCategory.findOne({ where: { name, id_supplier } });
   if (exists) {
