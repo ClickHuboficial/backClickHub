@@ -61,8 +61,11 @@ const Category = db.categorys;
 exports.createSubCategory = async (req, res) => {
   const { name, id_supplier, ean, id_cat } = req.body;
 
+
   const existsCat = await Category.findOne({ where: { id: id_cat, id_supplier } });
-  if (existsCat) {
+
+  console.log(existsCat)
+  if (!existsCat) {
     return res.status(200).json({ error: 'Não existe essa categoria' });
   }
 
@@ -74,6 +77,7 @@ exports.createSubCategory = async (req, res) => {
     name: name,
     id_supplier: id_supplier,
     ean:ean,
+    id_cat: id_cat,
     code: 1,
     status: 1,
   })

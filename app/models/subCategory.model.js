@@ -13,6 +13,9 @@ module.exports = (sequelize, Sequelize) => {
       id_supplier: {
         type: Sequelize.STRING
       }, 
+      id_cat: {
+        type: Sequelize.INTEGER
+      }, 
       code: {
         type: Sequelize.STRING
       }, 
