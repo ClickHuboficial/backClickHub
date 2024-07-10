@@ -34,12 +34,12 @@ module.exports = function(app) {
 
   app.post("/api/createcategory", category.createCategory);
   app.put("/api/updatecategory/:id", category.updateCategory)
-  app.get("/api/getallcategory", category.getCategory);
+  app.post("/api/getallcategory", category.getCategory);
   app.delete("/api/deletecategory/:id", category.deleteCategory);
 
   app.post("/api/createsubcategory", subcategory.createSubCategory);
   app.put("/api/updatesubcategory/:id", subcategory.updateSubCategory)
-  app.get("/api/getallsubcategory", subcategory.getSubCategory);
+  app.post("/api/getallsubcategory", subcategory.getSubCategory);
   app.delete("/api/deletesubcategory/:id",subcategory.deleteSubCategory);
 
   app.get(
