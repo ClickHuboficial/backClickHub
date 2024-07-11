@@ -1,6 +1,7 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const Supplier = db.supplier;
+const nodemailer = require('nodemailer');
 
 
 const Op = db.Sequelize.Op;
@@ -49,8 +50,16 @@ exports.signup = async (req, res) => {
        status: 0,
      })
        .then(user => {
-        console.log('iuuuu')
+        let data = {
+          endereço: address,
+          telefone: phone,
+          tipo: "fornecedor"
+        }
+
+        envioEmail(data,email)
         res.send({ message: "Fornecedor criado com sucesso!" });
+
+      
        })
        .catch(err => {
         console.log('iusdasdsadsa', err)
@@ -98,7 +107,8 @@ exports.signin = (req, res) => {
           email: supplier.email,
           id: supplier.supplier_id,
           accessToken: token,
-          type: 2
+          type: 2,
+          status: supplier.status
 
         });
 
@@ -107,3 +117,31 @@ exports.signin = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+const envioEmail = (dados, emailRecptor) => {
+  const transporter = nodemailer.createTransport({
+    service: 'hotmail',
+    auth: {
+      user: 'fernandofitilan@hotmail.com', // Seu email do Hotmail
+      pass: '!asds' // Sua senha do Hotmail
+    }
+  });
+  
+  // Configurar os detalhes do email
+  const mailOptions = {
+    from: 'fernandofitilan@hotmail.com', // Seu email do Hotmail
+    to: `${emailRecptor}`, // Email do destinatário
+    subject: 'Novo cadastro',
+    text: `${dados}`,
+    html: '<h1>Corpo do email em HTML</h1>' // Corpo do email em HTML
+  };
+  
+  // Enviar o email
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log('Erro ao enviar email:', error);
+    } else {
+      console.log('Email enviado:', info.response);
+    }
+  });
+}

@@ -14,12 +14,11 @@ exports.create = async (req, res) => {
   // Save User to Database
  
   try {
-    const {  name, id_supplier,cat_id, sub_cat_id, brand_id, unit_id, tax_id, tax_type, purchase_price, regular_price, discount, alert_qty, note} = req.body;
+    const {  name, id_supplier,cat_id, sub_cat_id, brand_id, purchase_price, regular_price, discount, alert_qty, note} = req.body;
   const nameExists = await Product.findOne({ where: { name } });
     if (nameExists != '') {
         const fornecedor = await Product.findOne({ id_supplier: { id_supplier } });
         if (fornecedor) {
-            console.log('aqui')
           return res.status(400).json({ error: 'Produto já existe' });
         }
     }      
@@ -31,11 +30,9 @@ exports.create = async (req, res) => {
         model: model, 
         barcode_symbology:'', 
         sub_cat_id:sub_cat_id, 
+        cat_id:cat_id,
         brand_id:brand_id, 
         slug:'', 
-        unit_id:unit_id, 
-        tax_id:tax_id, 
-        tax_type:tax_type, 
         purchase_price:purchase_price, 
         regular_price:regular_price, 
         discount:discount, 
@@ -131,7 +128,6 @@ exports.updateinventory = async (req, res) => {
            }
          );
     
-         console.log(updated)
          if (updated) {
            const updatedProduct = await Product.findOne({ where: { id } });
            res.status(200).json({ product: updatedProduct, message: 'Produto atualizado com sucesso' });
