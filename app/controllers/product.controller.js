@@ -15,22 +15,23 @@ exports.create = async (req, res) => {
  
   try {
     const {  name, id_supplier,cat_id, sub_cat_id, brand_id, purchase_price, regular_price, discount, alert_qty, note} = req.body;
-  const nameExists = await Product.findOne({ where: { name } });
-    if (nameExists != '') {
-        const fornecedor = await Product.findOne({ id_supplier: { id_supplier } });
-        if (fornecedor) {
+  const nameExists = await Product.findOne({ where: { name, id_supplier } });
+  console.log(cat_id)
+    if (nameExists != null) {
+        // const fornecedor = await Product.findOne({ id_supplier: { id_supplier } });
+        // if (fornecedor != null) {
           return res.status(400).json({ error: 'Produto já existe' });
-        }
+        // }
     }      
 
      Product.create({
         name: name, 
         id_supplier: id_supplier, 
         code:'', 
-        model: model, 
+        model: '', 
         barcode_symbology:'', 
         sub_cat_id:sub_cat_id, 
-        cat_id:cat_id,
+        cat_id: cat_id,
         brand_id:brand_id, 
         slug:'', 
         purchase_price:purchase_price, 

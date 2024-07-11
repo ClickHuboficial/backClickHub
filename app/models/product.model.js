@@ -22,6 +22,12 @@ module.exports = (sequelize, Sequelize) => {
       status: {
         type: Sequelize.STRING
       },
+      cat_id:{
+        type: Sequelize.NUMBER
+      },
+      brand_id:{
+        type: Sequelize.NUMBER
+      },
       id_supplier: {
         type: Sequelize.STRING
       },
@@ -38,7 +44,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       },
       sub_cat_id: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       slug: {
         type: Sequelize.STRING
