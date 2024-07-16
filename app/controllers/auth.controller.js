@@ -12,7 +12,6 @@ exports.signup = async (req, res) => {
   // Save User to Database
  
   try {
-    console.log(req.body)
     const { name, email, password, phone, cpf_cnpj, companyName, address} = req.body;
   const emailExists = await User.findOne({ where: { email } });
     if (emailExists) {
@@ -29,7 +28,7 @@ exports.signup = async (req, res) => {
       order: [['created_at', 'DESC']]
   });
 
-  let code = parseInt(lastClient.client_id) + 1
+  let code = bcrypt.hashSync(new Date() + name, 8);
 
 
     User.create({
@@ -43,7 +42,7 @@ exports.signup = async (req, res) => {
       address: address,
       slug: name,
       image_path: null,
-      status: 0,
+      status: 1,
     })
       .then(user => {
        res.send({ message: "Afiliado criado com sucesso!" });
@@ -63,41 +62,56 @@ exports.test = (req, res) => {
 // admddin@dsdd.coms 1235202
 exports.signin = (req, res) => {
 
+  console.log(req.body)
+
+  let a =  User.findOne({
+    where: {
+      email: req.body.email
+    }
+  })
+
+
   User.findOne({
     where: {
       email: req.body.email
     }
   })
-    .then(user => {
-      if (!user) {
-        return res.status(404).send({ message: "Usuário não encontrado." });
-      }
+    .then(user => {       
+      if (user == null) {
+         return res.status(404).send({ message: "Usuário não encontrado." });
+       }
 
-      let passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
+       let passwordIsValid = bcrypt.compareSync(
+         req.body.password,
+         user.password
+       );
 
-      if (!passwordIsValid) {
-        return res.status(401).send({
-          accessToken: null,
-          message: "Senha inválida!"
-        });
-      }
+       if (!passwordIsValid) {
+         return res.status(401).send({
+           accessToken: null,
+           message: "Senha inválida!"
+         });
+       }
 
-      const token = jwt.sign({ id: user.id },
-                              config.secret,
-                              {
-                                algorithm: 'HS256',
-                                allowInsecureKeySizes: true,
-                                expiresIn: 86400, // 24 hours
-                              });
+       const token = jwt.sign({ id: user.id },
+                               config.secret,
+                               {
+                                 algorithm: 'HS256',
+                                 allowInsecureKeySizes: true,
+                                 expiresIn: 86400,  //24 hours
+                               });
 
 
-        res.status(200).send({
-          email: user.email,
-          accessToken: token
-        });
+                               console.log(user)
+
+                                res.status(200).send({
+                                  email: user.email,
+                                  id: user.client_id,
+                                  accessToken: token,
+                                  type: 1,
+                                  status: user.status
+                      
+                                });
 
     })
     .catch(err => {

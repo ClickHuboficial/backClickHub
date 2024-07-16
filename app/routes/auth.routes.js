@@ -16,6 +16,7 @@ module.exports = function(app) {
     "/api/auth/signup", controller.signup
   );
 
+
   // app.post("/send", supplier.teste);
 
   app.post("/api/auth/signin", controller.signin);

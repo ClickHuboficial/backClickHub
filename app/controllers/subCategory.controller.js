@@ -2,62 +2,7 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const subCategory = db.subCategorys;
 const Category = db.categorys;
-/**
- * @swagger
- * components:
- *   schemas:
- *     SubCategory:
- *       type: object
- *       required:
- *         - name
- *         - id_supplier
- *       properties:
- *         id:
- *           type: integer
- *           description: The auto-generated ID of the subCategory
- *         name:
- *           type: string
- *           description: The name of the subCategory
- *         id_supplier:
- *           type: integer
- *           description: The ID of the supplier
- *         code:
- *           type: string
- *           description: The code of the subCategory
- *         status:
- *           type: integer
- *           description: The status of the subCategory
- */
 
-/**
- * @swagger
- * tags:
- *   name: SubCategory
- *   description: The subCategory managing API
- */
-
-/**
- * @swagger
- * /subCategory:
- *   post:
- *     summary: Create a new subCategory
- *     tags: [SubCategory]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/SubCategory'
- *     responses:
- *       200:
- *         description: The subCategory was successfully created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/SubCategory'
- *       500:
- *         description: Some server error
- */
 exports.createSubCategory = async (req, res) => {
   const { name, id_supplier, ean, id_cat } = req.body;
 
@@ -89,37 +34,7 @@ exports.createSubCategory = async (req, res) => {
     });
 };
 
-/**
- * @swagger
- * /subCategory/{id}:
- *   put:
- *     summary: Update a subCategory
- *     tags: [SubCategory]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: integer
- *         required: true
- *         description: The subCategory id
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/SubCategory'
- *     responses:
- *       200:
- *         description: The subCategory was successfully updated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/SubCategory'
- *       404:
- *         description: The subCategory was not found
- *       500:
- *         description: Some server error
- */
+
 exports.updateSubCategory = async (req, res) => {
   const { id } = req.params;
   const { name, id_supplier, ean } = req.body;
@@ -143,33 +58,7 @@ exports.updateSubCategory = async (req, res) => {
   }
 };
 
-/**
- * @swagger
- * /subCategory/{id}:
- *   delete:
- *     summary: Remove the subCategory by id
- *     tags: [SubCategory]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: integer
- *         required: true
- *         description: The subCategory id
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/SubCategory'
- *     responses:
- *       200:
- *         description: The subCategory was deleted
- *       404:
- *         description: The subCategory was not found
- *       500:
- *         description: Some server error
- */
+
 exports.deleteSubCategory = async (req, res) => {
   const { id } = req.params;
   const { id_supplier } = req.body;
@@ -187,35 +76,10 @@ exports.deleteSubCategory = async (req, res) => {
   }
 };
 
-/**
- * @swagger
- * /subCategory:
- *   get:
- *     summary: Get all subCategories for a supplier
- *     tags: [SubCategory]
- *     parameters:
- *       - in: query
- *         name: id_supplier
- *         schema:
- *           type: integer
- *         required: true
- *         description: The supplier id
- *     responses:
- *       200:
- *         description: The list of subCategories
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/SubCategory'
- *       500:
- *         description: Some server error
- */
 exports.getSubCategory = async (req, res) => {
-  const { id_supplier } = req.body;
+  const { id_supplier, id_cat } = req.body;
 
-  const list = await subCategory.findAll({ where: { id_supplier } });
+  const list = await subCategory.findAll({ where: { id_supplier,  id_cat } });
 
-  res.send({ lista: list });
+  res.send({ list: list });
 };

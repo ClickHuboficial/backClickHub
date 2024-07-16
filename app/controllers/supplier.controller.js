@@ -62,7 +62,6 @@ exports.signup = async (req, res) => {
       
        })
        .catch(err => {
-        console.log('iusdasdsadsa', err)
          res.status(500).send({ message: err });
        });
   } catch (error) {

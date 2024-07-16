@@ -5,6 +5,8 @@ const brand = require("../controllers/brands.controller");
 const category = require("../controllers/category.controller");
 const subcategory = require("../controllers/subCategory.controller");
 
+const mercadolivre = require("../controllers/mercadoLivre.controller")
+
 module.exports = function(app) {
   app.use(function(req, res, next) {
     res.header(
@@ -17,7 +19,8 @@ module.exports = function(app) {
   app.get("/api/test/all", controller.allAccess);
 
 
-
+  app.get("/api/token", mercadolivre.getToken);
+  app.get("/api/to", mercadolivre.getTo);
 
   app.post("/api/createbrand", brand.createBrands);
   app.put("/api/updatebrand/:id", brand.updateBrands)
@@ -31,6 +34,7 @@ module.exports = function(app) {
   app.post("/api/createproduct", product.create);
   app.delete("/api/product/:id", product.delete);
   app.put("/api/productinventory/:id", product.updateinventory);
+  app.post("/api/upload", product.uploadImg);
 
   app.post("/api/createcategory", category.createCategory);
   app.put("/api/updatecategory/:id", category.updateCategory)
